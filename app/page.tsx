@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./components/NavBar";
 import VideoCard from "./components/VideoCard";
 import AirportMap from "./components/AirportMap";
+import AlertList from "./components/AlertList";
 
 type Video = {
   id: number;
@@ -20,15 +21,31 @@ const videos: Video[] = [
 
 export default function Home() {
   const [selectedVideo, setSelectedVideo] = useState<Video>(videos[0]);
+  const [alerts, setAlerts] = useState([
+    { id: 1, message: "Mouvement suspect détecté", time: "10:30" },
+    { id: 2, message: "Caméra 2 hors ligne", time: "10:45" },
+  ]);
+
+  // Simulation d'ajout d'alertes toutes les 10 secondes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAlerts((prev) => [
+        { id: prev.length + 1, message: "Nouvelle alerte détectée", time: new Date().toLocaleTimeString() },
+        ...prev.slice(0, 4), // Garder uniquement les 5 dernières alertes
+      ]);
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="min-h-screen text-black ">
+    <div className="min-h-screen text-black">
       <Navbar />
       
       <div className="pt-20 p-5 mt-50">
         <h1 className="text-3xl font-bold mb-4 mt-20">Dashboard de Vidéosurveillance</h1>
 
-        {/* Section vidéo + carte */}
+        {/* Section vidéo + carte + alertes */}
         <div className="flex gap-4">
           {/* Grand affichage de la vidéo */}
           <div className="w-2/3 bg-blue-50 p-4 rounded-lg shadow-lg">
@@ -39,9 +56,10 @@ export default function Home() {
             <h2 className="mt-2 text-xl font-semibold">{selectedVideo.title}</h2>
           </div>
 
-          {/* Plan de l'aéroport */}
-          <div className="w-1/3">
+          {/* Plan de l'aéroport + alertes */}
+          <div className="w-1/3 flex flex-col space-y-4">
             <AirportMap setSelectedVideo={setSelectedVideo} />
+            <AlertList alerts={alerts} />
           </div>
         </div>
 
