@@ -5,6 +5,7 @@ import Navbar from "./components/NavBar";
 import VideoCard from "./components/VideoCard";
 import AirportMap from "./components/AirportMap";
 import AlertList from "./components/AlertList";
+import WebcamStream from "./components/WebcamStream"; 
 
 type Video = {
   id: number;
@@ -56,10 +57,14 @@ export default function Home() {
             <h2 className="mt-2 text-xl font-semibold">{selectedVideo.title}</h2>
           </div>
 
+
           {/* Plan de l'aéroport + alertes */}
           <div className="w-1/3 flex flex-col space-y-4">
             <AirportMap setSelectedVideo={setSelectedVideo} />
             <AlertList alerts={alerts} />
+          </div>
+          <div className="w-2/3 bg-blue-50 p-4 rounded-lg shadow-lg">
+            <WebcamStream />
           </div>
         </div>
 
