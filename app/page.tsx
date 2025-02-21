@@ -7,6 +7,7 @@ import AirportMap from "./components/AirportMap";
 import AlertList from "./components/AlertList";
 import WebcamStream from "./components/WebcamStream"; 
 
+
 type Video = {
   id: number;
   title: string;
@@ -56,7 +57,6 @@ export default function Home() {
             </video>
             <h2 className="mt-2 text-xl font-semibold">{selectedVideo.title}</h2>
           </div>
-
 
           {/* Plan de l'aéroport + alertes */}
           <div className="w-1/3 flex flex-col space-y-4">
